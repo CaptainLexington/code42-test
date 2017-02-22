@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Router, Route, hashHistory } from 'react-router'
-import {PageHeader, Grid, Row, Col, ListGroup, ListGroupItem, Image} from 'react-bootstrap'
+import {PageHeader, Grid, Row, Col, ListGroup, ListGroupItem, Image, Glyphicon, Well} from 'react-bootstrap'
 import 'whatwg-fetch'
 import './App.css'
 
@@ -20,7 +20,10 @@ class UserList extends Component {
 class About extends Component {
   render () {
     return (
-      <p>Hullo!</p>
+      <section className='about'>
+        <h2>Thank You!</h2>
+        <p>Thank you for giving me this opportunity to demonstrate my skills as a front-end developer.</p>
+      </section>
     )
   }
 }
@@ -69,11 +72,14 @@ class UserRepoList extends Component {
 
   render () {
     return (
-      <ListGroup >
-        {this.state.repos.map(function (repo) {
-          return (<ListGroupItem key={repo.id} href={repo.homepage || repo.html_url}>{repo.name}</ListGroupItem>)
-        })}
-      </ListGroup>
+      <Well >
+        <h3>Public Repositories</h3>
+        <ListGroup className='user-repo-list' >
+          {this.state.repos.map(function (repo) {
+            return (<ListGroupItem key={repo.id} href={repo.homepage || repo.html_url}>{repo.name}</ListGroupItem>)
+          })}
+        </ListGroup>
+      </Well>
     )
   }
 }
@@ -82,6 +88,26 @@ class User extends Component {
   constructor (props) {
     super(props)
     this.state = {}
+  }
+
+  componentDidMount () {
+    const user = this.props.users[this.props.params.id]
+    let component = this
+    this.setState({
+      user: user,
+      userData: null
+    })
+    if (user) {
+      fetch(user.url)
+      .then(function (response) {
+        return response.json()
+      })
+      .then(function (userData) {
+        component.setState({
+          userData: userData
+        })
+      })
+    }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -111,6 +137,7 @@ class User extends Component {
     if (user && userData) {
       return (
         <section className='user-profile'>
+          <a className='close' href='#/'><Glyphicon glyph='remove' /></a>
           <h2>{user.login}</h2>
           <Image alt={user.login} src={user.avatar_url} rounded height='100' />
           <p>{userData.location}</p>
