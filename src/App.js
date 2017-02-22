@@ -157,7 +157,7 @@ class User extends Component {
           <Image alt={user.login} src={user.avatar_url} rounded height='100' />
           <p>{userData.name}</p>
           <p>{userData.location}</p>
-          <a href={"mailto:" + userData.email}>{userData.email}</a>
+          <a href={'mailto:' + userData.email}>{userData.email}</a>
           <p>Joined on {userData.created_at.substr(0, 10)}</p>
           <UserRepoList user={user} />
         </section>
