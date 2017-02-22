@@ -33,10 +33,10 @@ class About extends Component {
         <p>I really enjoyed using React. I've long been a devotee of functional programming, and seek to use concepts like pure functions and immutability in everything I do. JavaScript doesn't always make it easy (although it easier than in <em>some</em> languages!), but React makes using them for UI updates, at least, feel completely natural, sane, and manageable.</p>
         <p>That said, there were some things I found less than elegant—owing, no doubt, to my own ignorance. For instance, it was necessary for me to make GitHub API calls whenever the user changed. I ended up having to do this in both the <code>componentDidMount</code> and <code>componentWillGetProps</code> methods of both the <code>User</code> and <code>UserRepoList</code> components. Even factoring these calls out into a separate function and passing them the appropriate props, there remains an unpleasant redundancy. I expect there is a more satisying solution to be found, given that it seems like a common pattern, but I could not find it myself.</p>
         <p>Additionally, I encountered a problem whereby my <code>User</code> component would sometimes (for instance, if refreshing the page while viewing a specific user) be required to render when the user in question was null (because the initial call to load the users hadn't completed). My initial instinct, to check in the <code>User render</code> method, proved rather ungainly as the app grew in complexity.</p>
-        <p>Despire these small drawbacks, I am very pleased with React and proud of my little experimental application. I hope you will agree it is nicely architechted, reasonably featureful, and not terrible to look at. I reiterate my gratitude for having had this opportunity, for even if we do not decide to proceed further, I have added a very useful skill to my arsenal.</p>
+        <p>Despire these small drawbacks, I am very pleased with React and proud of my little experimental application. I hope you will agree it is nicely architechted, reasonably featureful, and not terrible to look at. I reiterate my gratitude for having had this opportunity, for not only have I demonstrated to my own satisfaction the kind of coding sensibility I would bring to Code42, but I have added a very useful skill to my arsenal into the bargain as well.</p>
 
         <p>Cheers,</p>
-        <p>C Warren Dale</p>
+        <p>[C. Warren] Dale</p>
 
       </section>
     )
