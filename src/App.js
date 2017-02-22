@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Router, Route, hashHistory } from 'react-router'
-import {PageHeader, Grid, Row, Col, ListGroup, ListGroupItem} from 'react-bootstrap'
+import {PageHeader, Grid, Row, Col, ListGroup, ListGroupItem, Image} from 'react-bootstrap'
 import 'whatwg-fetch'
 import './App.css'
 
@@ -50,11 +50,8 @@ class UserRepoList extends Component {
     }
   }
 
-  componentWillUnmount () {
-    console.log("ReposListUnmount")
-  }
-
   componentWillReceiveProps (nextProps) {
+    console.log(nextProps.user)
     let user = nextProps.user
     let component = this
     if (user) {
@@ -90,6 +87,10 @@ class User extends Component {
   componentWillReceiveProps (nextProps) {
     const user = nextProps.users[nextProps.params.id]
     let component = this
+    this.setState({
+      user: user,
+      userData: null
+    })
     if (user) {
       fetch(user.url)
       .then(function (response) {
@@ -97,7 +98,7 @@ class User extends Component {
       })
       .then(function (userData) {
         component.setState({
-          user: userData
+          userData: userData
         })
       })
     }
@@ -105,21 +106,22 @@ class User extends Component {
 
   render () {
     const user = this.state.user
+    const userData = this.state.userData
 
-    if (user) {
+    if (user && userData) {
       return (
         <section className='user-profile'>
           <h2>{user.login}</h2>
-          <img alt={user.login} src={user.avatar_url} height='100' />
-          <p>{user.location}</p>
-          <p>{user.email}</p>
-          <p>Joined on {user.created_at.substr(0, 10)}</p>
+          <Image alt={user.login} src={user.avatar_url} rounded height='100' />
+          <p>{userData.location}</p>
+          <p>{userData.email}</p>
+          <p>Joined on {userData.created_at.substr(0, 10)}</p>
           <UserRepoList user={user} />
         </section>
       )
     } else {
       return (
-        <p>Unfortunately there is no user information!</p>
+        <p>Loading...</p>
       )
     }
   }
