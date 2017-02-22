@@ -7,7 +7,6 @@ import './App.css'
 class UserList extends Component {
 
   render () {
-    console.log(Object.values(this.props.users))
     return (
       <ListGroup className='users'>
         {Object.values(this.props.users).map(function (user) {
@@ -51,6 +50,10 @@ class UserRepoList extends Component {
     }
   }
 
+  componentWillUnmount () {
+    console.log("ReposListUnmount")
+  }
+
   componentWillReceiveProps (nextProps) {
     let user = nextProps.user
     let component = this
@@ -79,15 +82,38 @@ class UserRepoList extends Component {
 }
 
 class User extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {}
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const user = nextProps.users[nextProps.params.id]
+    let component = this
+    if (user) {
+      fetch(user.url)
+      .then(function (response) {
+        return response.json()
+      })
+      .then(function (userData) {
+        component.setState({
+          user: userData
+        })
+      })
+    }
+  }
 
   render () {
-    const user = this.props.users[this.props.params.id]
+    const user = this.state.user
 
     if (user) {
       return (
         <section className='user-profile'>
           <h2>{user.login}</h2>
           <img alt={user.login} src={user.avatar_url} height='100' />
+          <p>{user.location}</p>
+          <p>{user.email}</p>
+          <p>Joined on {user.created_at.substr(0, 10)}</p>
           <UserRepoList user={user} />
         </section>
       )
